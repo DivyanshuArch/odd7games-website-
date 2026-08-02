@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>odd7games | Games Directory</title>
+  <meta name="description" content="Explore our library of premium games. From synthwave speedrunners to cyberpunk roguelikes, play our latest alphas and wishlists.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.svg?v=2" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- PAGE LOADER LAYER -->
+  <div class="loader-wrapper">
+    <div class="loader-logo">ODD7GAMES</div>
+    <div class="loader-bar-bg">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- YELLOW BRAND HEADER -->
+  <header class="header-banner">
+    <a href="index.html" class="logo-container" id="nav-logo">
+      <div class="logo-badge">
+        <span>ODD7GAMES</span>
+      </div>
+    </a>
+    
+    <button class="mobile-toggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="games.html" class="nav-link active">Games</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="games.html" class="nav-cta"><span>▶</span> PLAY NOW</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <section class="hero" style="padding-bottom: 30px;">
+    <div class="status-badge" style="background-color: var(--color-neon-cyan); color: #000;">
+      <span>CURRENT CATALOG: 4 PROJECTS</span>
+    </div>
+    <h1 class="hero-title" style="font-size: 5rem; text-shadow: 4px 4px 0px var(--color-neon-cyan), 8px 8px 0px #000;">GAMES CATALOG</h1>
+    <h2 class="hero-subtitle" style="font-size: 1.8rem;">PICK YOUR FIGHTER</h2>
+  </section>
+
+  <!-- GAMES FILTER BAR -->
+  <section class="container" style="padding-bottom: 20px; text-align: center;">
+    <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center; background-color: #020108; border: 2px solid #000; padding: 8px; border-radius: 4px;">
+      <button class="filter-btn active" data-filter="all" style="background-color: transparent; border: none; font-family: var(--font-display); font-weight: 700; color: #fff; padding: 8px 16px; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; transform: skewX(-10deg); transition: var(--transition-fast);">ALL</button>
+      <button class="filter-btn" data-filter="action" style="background-color: transparent; border: none; font-family: var(--font-display); font-weight: 700; color: #fff; padding: 8px 16px; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; transform: skewX(-10deg); transition: var(--transition-fast);">ACTION</button>
+      <button class="filter-btn" data-filter="rpg" style="background-color: transparent; border: none; font-family: var(--font-display); font-weight: 700; color: #fff; padding: 8px 16px; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; transform: skewX(-10deg); transition: var(--transition-fast);">RPG</button>
+      <button class="filter-btn" data-filter="retro" style="background-color: transparent; border: none; font-family: var(--font-display); font-weight: 700; color: #fff; padding: 8px 16px; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; transform: skewX(-10deg); transition: var(--transition-fast);">RETRO</button>
+    </div>
+  </section>
+
+  <!-- Filter Active Styles injected to avoid loading custom css for buttons -->
+  <style>
+    .filter-btn { border: 2px solid transparent !important; }
+    .filter-btn:hover { color: var(--color-primary) !important; }
+    .filter-btn.active { background-color: var(--color-primary) !important; color: #000 !important; border: 2px solid #000 !important; font-weight: 900; }
+  </style>
+
+  <!-- GAMES GRID -->
+  <main class="container">
+    <div class="grid-cards" id="games-grid">
+      <!-- Dynamically populated from games-data.js -->
+    </div>
+  </main>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <a href="index.html" class="footer-logo">ODD7GAMES</a>
+        <p style="font-size: 0.9rem; max-width: 320px;">We craft bold, high-contrast, premium gaming experiences. No templates, just pure action.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Discord">👾</a>
+          <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-icon" aria-label="YouTube">📺</a>
+          <a href="#" class="social-icon" aria-label="GitHub">🐙</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="games.html">Games Catalog</a></li>
+            <li><a href="about.html">About Team</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Featured Games</h4>
+          <ul>
+            <li><a href="games.html?game=void-runner">Void Runner</a></li>
+            <li><a href="games.html?game=shadow-core">Shadow Core</a></li>
+            <li><a href="games.html?game=neon-blitz">Neon Blitz</a></li>
+            <li><a href="games.html?game=pixel-quest">Pixel Quest</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 odd7games studio. All rights reserved. Designed for elite gaming performances.</p>
+    </div>
+  </footer>
+
+  <script src="games-data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

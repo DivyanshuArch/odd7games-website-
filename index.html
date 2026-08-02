@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>odd7games | Indie Game Studio</title>
+  <meta name="description" content="Welcome to odd7games, a modern-retro indie game studio. We build bold, high-contrast, action-packed gaming experiences. Play our demos and meet the team.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.svg?v=2" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- PAGE LOADER LAYER -->
+  <div class="loader-wrapper">
+    <div class="loader-logo">ODD7GAMES</div>
+    <div class="loader-bar-bg">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- YELLOW BRAND HEADER -->
+  <header class="header-banner">
+    <a href="index.html" class="logo-container" id="nav-logo">
+      <div class="logo-badge">
+        <span>ODD7GAMES</span>
+      </div>
+    </a>
+    
+    <button class="mobile-toggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="games.html" class="nav-link">Games</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="games.html" class="nav-cta"><span>▶</span> PLAY NOW</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section class="hero">
+    <div class="hero-split-layout" style="display: flex; align-items: center; justify-content: space-between; gap: 40px; max-width: 1100px; margin: 0 auto; text-align: left; width: 100%; flex-wrap: wrap;">
+      
+      <!-- Text contents (Left) -->
+      <div style="flex: 1 1 500px; display: flex; flex-direction: column; align-items: flex-start;">
+        <div class="status-badge">
+          <span class="status-pulse"></span>
+          <span>STUDIO STATUS: ACTIVE CODING</span>
+        </div>
+        <h1 class="hero-title" style="text-align: left; margin-left: 0;">ODD7GAMES</h1>
+        <h2 class="hero-subtitle">THIS IS WHERE IDEAS BURN</h2>
+
+
+      </div>
+      
+      <!-- Mascot (Right) -->
+      <div class="hero-mascot-container" style="flex: 1 1 300px; display: flex; justify-content: center; align-items: center; position: relative;">
+        <!-- Glowing background ring -->
+        <div style="position: absolute; width: 280px; height: 280px; background: radial-gradient(circle, rgba(255, 0, 85, 0.2) 0%, transparent 70%); z-index: 1;"></div>
+        <!-- Mascot image -->
+        <img src="assets/g4.png" alt="odd7games mascot" class="hero-mascot-img" style="max-width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.5));">
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- FEATURED WORK showcase -->
+  <main class="container">
+    <div style="text-align: center;">
+      <div class="section-label">FEATURED PROJECT</div>
+    </div>
+    
+    <div id="featured-project-container">
+      <!-- Dynamically populated from games-data.js -->
+    </div>
+  </main>
+
+  <!-- DYNAMIC LIVE WIDGET -->
+  <section class="container" style="padding-top: 20px; padding-bottom: 60px;">
+    <div class="live-stream-container">
+      <div class="live-stream-content">
+        <div class="live-stream-avatar">👾</div>
+        <div class="live-stream-info">
+          <h5>Next Playtest: Friday at 21:00 UTC</h5>
+          <p>Join our core community server and test out the new Void Runner level editor live with devs.</p>
+        </div>
+      </div>
+      <a href="contact.html" class="btn-live">REGISTER AS BETA TESTER</a>
+    </div>
+  </section>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <a href="index.html" class="footer-logo">ODD7GAMES</a>
+        <p style="font-size: 0.9rem; max-width: 320px;">We craft bold, high-contrast, premium gaming experiences. No templates, just pure action.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Discord">👾</a>
+          <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-icon" aria-label="YouTube">📺</a>
+          <a href="#" class="social-icon" aria-label="GitHub">🐙</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="games.html">Games Catalog</a></li>
+            <li><a href="about.html">About Team</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Featured Games</h4>
+          <ul>
+            <li><a href="games.html?game=void-runner">Void Runner</a></li>
+            <li><a href="games.html?game=shadow-core">Shadow Core</a></li>
+            <li><a href="games.html?game=neon-blitz">Neon Blitz</a></li>
+            <li><a href="games.html?game=pixel-quest">Pixel Quest</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 odd7games studio. All rights reserved. Designed for elite gaming performances.</p>
+    </div>
+  </footer>
+
+  <script src="games-data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>odd7games | About & Team</title>
+  <meta name="description" content="Meet the crew behind odd7games. Learn about our design philosophy, history, and the talented fighters building the future of retro-cyber indie gaming.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.svg?v=2" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- PAGE LOADER LAYER -->
+  <div class="loader-wrapper">
+    <div class="loader-logo">ODD7GAMES</div>
+    <div class="loader-bar-bg">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- YELLOW BRAND HEADER -->
+  <header class="header-banner">
+    <a href="index.html" class="logo-container" id="nav-logo">
+      <div class="logo-badge">
+        <span>ODD7GAMES</span>
+      </div>
+    </a>
+    
+    <button class="mobile-toggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="games.html" class="nav-link">Games</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="games.html" class="nav-cta"><span>▶</span> PLAY NOW</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <section class="hero" style="padding-bottom: 30px;">
+
+    <h1 class="hero-title" style="font-size: 5rem; text-shadow: 4px 4px 0px var(--color-neon-yellow), 8px 8px 0px #000;">ABOUT US</h1>
+    <h2 class="hero-subtitle" style="font-size: 1.8rem;">THE STUDIO STORY</h2>
+  </section>
+
+  <!-- STUDIO PHILOSOPHY / HISTORY -->
+  <section class="container" style="padding-bottom: 40px;">
+    <div style="background-color: var(--color-bg-card); border: 3px solid var(--color-primary); padding: 35px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 900px; margin: 0 auto; position: relative;">
+      <!-- Accent Slanted Badge -->
+      <span style="position: absolute; top: -16px; left: 20px; background-color: var(--color-secondary); color: #fff; padding: 4px 14px; font-family: var(--font-display); font-weight: 900; font-size: 0.8rem; text-transform: uppercase; border: 2px solid #000; box-shadow: 2px 2px 0px #000; transform: skewX(-10deg);">THE CORE DATA</span>
+      
+      <p style="font-size: 1.1rem; color: #fff; margin-bottom: 20px; font-weight: 500; line-height: 1.8;">
+        At <span style="color: var(--color-primary); font-weight: 700;">odd7games</span>, we don't build generic web games or mass-produced mobile clones. We are a tight-knit squad of designers, coders, and sound synthesizers dedicated to building bold, high-contrast, neon-lit digital playgrounds.
+      </p>
+      
+      <p style="font-size: 1rem; color: var(--color-text-muted); line-height: 1.8;">
+        Our philosophy is rooted in the golden era of arcade gaming, mixed with modern roguelike design and sleek cyberpunk aesthetics. We believe game design should be loud, controls should be razor-sharp, and soundtracks should pulse. If our games don't make your pulse race, we haven't done our job.
+      </p>
+    </div>
+  </section>
+
+  <!-- TEAM SECTION (Inspired by DEBATE FORGE Fighters Grid) -->
+  <section class="container">
+    <div style="text-align: center;">
+      <div class="section-label">OUR TEAM</div>
+    </div>
+
+    <div class="grid-cards" id="team-grid">
+      <!-- Dynamically populated from team-data.js -->
+    </div>
+  </section>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <a href="index.html" class="footer-logo">ODD7GAMES</a>
+        <p style="font-size: 0.9rem; max-width: 320px;">We craft bold, high-contrast, premium gaming experiences. No templates, just pure action.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Discord">👾</a>
+          <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-icon" aria-label="YouTube">📺</a>
+          <a href="#" class="social-icon" aria-label="GitHub">🐙</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="games.html">Games Catalog</a></li>
+            <li><a href="about.html">About Team</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Featured Games</h4>
+          <ul>
+            <li><a href="games.html?game=void-runner">Void Runner</a></li>
+            <li><a href="games.html?game=shadow-core">Shadow Core</a></li>
+            <li><a href="games.html?game=neon-blitz">Neon Blitz</a></li>
+            <li><a href="games.html?game=pixel-quest">Pixel Quest</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 odd7games studio. All rights reserved. Designed for elite gaming performances.</p>
+    </div>
+  </footer>
+
+  <script src="team-data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

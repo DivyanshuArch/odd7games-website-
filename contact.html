@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>odd7games | Contact Portal</title>
+  <meta name="description" content="Get in touch with odd7games. Send us press inquiries, business deals, beta feedback, or bug reports via our interactive terminal mailing portal.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.svg?v=2" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- PAGE LOADER LAYER -->
+  <div class="loader-wrapper">
+    <div class="loader-logo">ODD7GAMES</div>
+    <div class="loader-bar-bg">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- YELLOW BRAND HEADER -->
+  <header class="header-banner">
+    <a href="index.html" class="logo-container" id="nav-logo">
+      <div class="logo-badge">
+        <span>ODD7GAMES</span>
+      </div>
+    </a>
+    
+    <button class="mobile-toggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="games.html" class="nav-link">Games</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li><a href="games.html" class="nav-cta"><span>▶</span> PLAY NOW</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <section class="hero" style="padding-bottom: 30px;">
+    <div class="status-badge" style="background-color: var(--color-neon-pink); color: #fff;">
+      <span>PORTAL ACCESS: SECURE TRANSMISSION</span>
+    </div>
+    <h1 class="hero-title" style="font-size: 5rem; text-shadow: 4px 4px 0px var(--color-neon-pink), 8px 8px 0px #000;">CONTACT US</h1>
+    <h2 class="hero-subtitle" style="font-size: 1.8rem;">SEND A TRANSMISSION</h2>
+  </section>
+
+  <!-- CONTACT CONTAINER -->
+  <main class="container">
+    <div class="contact-split" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 40px; max-width: 1000px; margin: 0 auto;">
+      
+      <!-- FORM COLUMN (Left) -->
+      <section style="flex: 1 1 450px; background-color: var(--color-bg-card); border: 3px solid #000; border-left: 8px solid var(--color-neon-pink); padding: 30px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h3 style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: 20px; color: #fff;">INQUIRY DOSSIER</h3>
+        
+        <form id="studio-contact-form" style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="contact-name" style="font-family: var(--font-display); font-size: 0.8rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; letter-spacing: 1px;">AGENT NAME</label>
+            <input type="text" id="contact-name" required placeholder="e.g. John Doe" style="background-color: #03010b; border: 2px solid #000; padding: 12px; color: #fff; font-family: var(--font-body); font-size: 0.95rem; border-radius: 2px; transition: var(--transition-fast);">
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="contact-email" style="font-family: var(--font-display); font-size: 0.8rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; letter-spacing: 1px;">RETURN FREQUENCY (EMAIL)</label>
+            <input type="email" id="contact-email" required placeholder="e.g. agent@domain.com" style="background-color: #03010b; border: 2px solid #000; padding: 12px; color: #fff; font-family: var(--font-body); font-size: 0.95rem; border-radius: 2px; transition: var(--transition-fast);">
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="contact-subject" style="font-family: var(--font-display); font-size: 0.8rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; letter-spacing: 1px;">SECTOR SUBJECT</label>
+            <select id="contact-subject" style="background-color: #03010b; border: 2px solid #000; padding: 12px; color: #fff; font-family: var(--font-body); font-size: 0.95rem; border-radius: 2px; cursor: pointer; transition: var(--transition-fast);">
+              <option value="BUSINESS INQUIRY">BUSINESS INQUIRY</option>
+              <option value="PRESS & MEDIA KIT">PRESS & MEDIA KIT</option>
+              <option value="BETA PLAYTESTING">BETA PLAYTESTING</option>
+              <option value="BUG REPORT">BUG REPORT</option>
+              <option value="GENERAL HELLO">GENERAL HELLO</option>
+            </select>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="contact-message" style="font-family: var(--font-display); font-size: 0.8rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; letter-spacing: 1px;">PAYLOAD MESSAGE</label>
+            <textarea id="contact-message" required rows="6" placeholder="Type your message dossier here..." style="background-color: #03010b; border: 2px solid #000; padding: 12px; color: #fff; font-family: var(--font-body); font-size: 0.95rem; border-radius: 2px; resize: vertical; transition: var(--transition-fast);"></textarea>
+          </div>
+          
+          <button type="submit" class="btn-card" style="border-color: var(--color-neon-pink); background-color: var(--color-neon-pink); color: #000; font-weight: 900; padding: 14px; font-size: 1rem; cursor: pointer; margin-top: 10px;">DISPATCH TRANSMISSION</button>
+        </form>
+      </section>
+
+      <!-- Focus glowing animations injected for interactive form inputs -->
+      <style>
+        input:focus, select:focus, textarea:focus {
+          outline: none;
+          border-color: var(--color-neon-pink) !important;
+          box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+        }
+      </style>
+
+      <!-- RETRO CONSOLE LOGGER COLUMN (Right) -->
+      <section style="flex: 1 1 350px; display: flex; flex-direction: column; gap: 20px; justify-content: flex-start;">
+        <div style="background-color: #020108; border: 3px solid #000; border-top: 25px solid #1c1537; padding: 20px; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; color: #00ff99; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; min-height: 250px;">
+          <!-- Window Buttons -->
+          <div style="position: absolute; top: -18px; left: 15px; display: flex; gap: 6px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--color-neon-pink); display: block;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--color-neon-yellow); display: block;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--color-neon-green); display: block;"></span>
+          </div>
+          <div style="position: absolute; top: -21px; right: 15px; font-family: var(--font-display); font-size: 0.65rem; color: #8c82b5; text-transform: uppercase; font-weight: 700;">
+            odd7_satellite_link.terminal
+          </div>
+          
+          <!-- Default placeholder screen -->
+          <div id="contact-terminal-log" style="height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+            <div style="color: var(--color-text-muted); font-style: italic;">
+              Waiting for network transmission packet...
+            </div>
+            <div style="color: var(--color-text-muted);">
+              Fill out the dossier form on the left and dispatch it to initiate secure satellite uplink.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Offline address info card styled like a fighter card -->
+        <div class="fighter-card accent-cyan" style="padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            <strong>Inquiries:</strong> <a href="mailto : odd7games@gmail.com" style="color: var(--color-neon-cyan); text-decoration: none; border-bottom: 1px dotted var(--color-neon-cyan);">odd7games@gmail.com</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <a href="index.html" class="footer-logo">ODD7GAMES</a>
+        <p style="font-size: 0.9rem; max-width: 320px;">We craft bold, high-contrast, premium gaming experiences. No templates, just pure action.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon" aria-label="Discord">👾</a>
+          <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-icon" aria-label="YouTube">📺</a>
+          <a href="#" class="social-icon" aria-label="GitHub">🐙</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="games.html">Games Catalog</a></li>
+            <li><a href="about.html">About Team</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Featured Games</h4>
+          <ul>
+            <li><a href="games.html?game=void-runner">Void Runner</a></li>
+            <li><a href="games.html?game=shadow-core">Shadow Core</a></li>
+            <li><a href="games.html?game=neon-blitz">Neon Blitz</a></li>
+            <li><a href="games.html?game=pixel-quest">Pixel Quest</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 odd7games studio. All rights reserved. Designed for elite gaming performances.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
