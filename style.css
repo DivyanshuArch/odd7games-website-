@@ -795,7 +795,7 @@ body {
   width: 0%;
   background-color: var(--color-primary);
   box-shadow: 0 0 10px var(--color-primary);
-  animation: load 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  transition: width 0.25s ease-out;
 }
 
 @keyframes load {

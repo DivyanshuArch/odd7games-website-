@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  setupLoader();
   setupMobileNav();
   setupCustomCursor();
   
@@ -17,28 +16,101 @@ document.addEventListener('DOMContentLoaded', () => {
   setupAudioSynth();
   setupCardGlow();
   setupContextSpecifics();
+
+  // Run loader setup after rendering dynamic elements to track all image preloads
+  setupLoader();
 });
 
-// 1. PAGE LOADER INITIALIZATION
+// 1. PAGE LOADER & IMAGE PRELOADER ENGINE
 function setupLoader() {
   const loader = document.querySelector('.loader-wrapper');
-  if (loader) {
-    // Force hide loader after a timeout in case window load is slow
-    const timeoutId = setTimeout(hideLoader, 2000);
-    
-    window.addEventListener('load', () => {
-      clearTimeout(timeoutId);
-      hideLoader();
-    });
-  }
-  
+  const barFill = document.querySelector('.loader-bar-fill');
+  if (!loader) return;
+
+  let isHidden = false;
+
   function hideLoader() {
-    if (loader) {
+    if (isHidden) return;
+    isHidden = true;
+
+    if (barFill) barFill.style.width = '100%';
+
+    setTimeout(() => {
       loader.style.opacity = '0';
       loader.style.visibility = 'hidden';
-      setTimeout(() => loader.remove(), 500);
+      setTimeout(() => {
+        if (loader && loader.parentNode) {
+          loader.parentNode.removeChild(loader);
+        }
+      }, 500);
+    }, 200);
+  }
+
+  // Gather all unique image URLs from DOM, GAMES_DATA, and TEAM_DATA
+  const imageUrls = new Set();
+
+  // DOM <img> tags
+  document.querySelectorAll('img').forEach(img => {
+    if (img.src) imageUrls.add(img.src);
+  });
+
+  // GAMES_DATA images & icons
+  if (typeof GAMES_DATA !== 'undefined' && Array.isArray(GAMES_DATA)) {
+    GAMES_DATA.forEach(game => {
+      if (Array.isArray(game.images)) {
+        game.images.forEach(src => { if (src) imageUrls.add(src); });
+      }
+      if (game.icon && typeof game.icon === 'string' && (game.icon.endsWith('.png') || game.icon.endsWith('.jpg') || game.icon.endsWith('.svg') || game.icon.endsWith('.webp') || game.icon.includes('/'))) {
+        imageUrls.add(game.icon);
+      }
+    });
+  }
+
+  // TEAM_DATA icons
+  if (typeof TEAM_DATA !== 'undefined' && Array.isArray(TEAM_DATA)) {
+    TEAM_DATA.forEach(member => {
+      if (member.icon && typeof member.icon === 'string' && (member.icon.endsWith('.png') || member.icon.endsWith('.jpg') || member.icon.endsWith('.svg') || member.icon.endsWith('.webp') || member.icon.includes('/'))) {
+        imageUrls.add(member.icon);
+      }
+    });
+  }
+
+  const urlArray = Array.from(imageUrls);
+  const total = urlArray.length;
+
+  if (total === 0) {
+    if (document.readyState === 'complete') {
+      hideLoader();
+    } else {
+      window.addEventListener('load', hideLoader);
+      setTimeout(hideLoader, 2500);
+    }
+    return;
+  }
+
+  let loaded = 0;
+
+  function updateProgress() {
+    loaded++;
+    const percent = Math.min(100, Math.round((loaded / total) * 100));
+    if (barFill) {
+      barFill.style.width = `${percent}%`;
+    }
+    if (loaded >= total) {
+      hideLoader();
     }
   }
+
+  // Preload every single image
+  urlArray.forEach(url => {
+    const img = new Image();
+    img.onload = updateProgress;
+    img.onerror = updateProgress; // Advance on error to prevent hanging on missing assets
+    img.src = url;
+  });
+
+  // Safety fallback timeout (10s max)
+  setTimeout(hideLoader, 10000);
 }
 
 // 2. MOBILE NAVIGATION DRAWER
