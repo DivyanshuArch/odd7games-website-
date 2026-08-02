@@ -6,7 +6,7 @@ const TEAM_DATA = [
     id: "coder",
     name: "Rishabh Garg ",
     role: "CODE • LOGIC ARCHITECT",
-    accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
+    accentClass: "accent-purple", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
     icon: "💻",
     bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
     quote: "If it runs below 90fps, it's a bug.",
@@ -41,17 +41,17 @@ const TEAM_DATA = [
   {
     id: "coder",
     name: "Sharad Mayank Sinha",
-    role: "CODE • LOGIC ARCHITECT",
-    accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
+    role: "CODE • UI • Design",
+    accentClass: "accent-cyan", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
     icon: "💻",
-    bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
-    quote: "If it runs below 90fps, it's a bug.",
+    bio: "Does everything that needs to be done XD",
+    quote: "You're either perfect, or you're not me.",
     stats: [
-      { label: "Caffeine Level", value: "100 / 100" },
+      { label: "Fanta Level", value: "100 / 100" },
       { label: "Logic capacity", value: "96 / 100" }
     ],
     buttonText: "PORTFOLIO",
-    buttonLink: "https://www.instagram.com/ghostkwebb/" // Add actual link or action
+    buttonLink: "https://ghostkwebb.vercel.app/" // Add actual link or action
   },
 
 
@@ -74,9 +74,9 @@ const TEAM_DATA = [
   {
     id: "storyteller",
     name: "Dewa",
-    role: "Story-teller",
-    accentClass: "accent-green",
-    icon: "🎮",
+    role: "Story-teller • SYNTHS • AUDIO GLITCHER",
+    accentClass: "accent-purple",
+    icon: "🎹",
     bio: "just-imagination",
     quote: "If you don't die on Level 1, it's too easy.",
     stats: [
@@ -101,21 +101,5 @@ const TEAM_DATA = [
     ],
     buttonText: "PORTFOLIO",
     buttonLink: "https://www.instagram.com/aaditya_soni2004/"
-  },
-
-  {
-    id: "composer",
-    name: "Dewa",
-    role: "SYNTHS • AUDIO GLITCHER",
-    accentClass: "accent-purple",
-    icon: "🎹",
-    bio: "Manipulates waveforms to synthesize low-fi chiptune sound waves. Connects retro hardware filters to build aggressive, driving electronic tracks for intense boss fights.",
-    quote: "If your headphones aren't shaking, turn it up.",
-    stats: [
-      { label: "Chiptune speed", value: "99 / 100" },
-      { label: "Analog synth warmth", value: "95 / 100" }
-    ],
-    buttonText: "STREAM OST TRACKS",
-    buttonLink: "https://www.instagram.com/maxpayne191227/"
   }
 ];
