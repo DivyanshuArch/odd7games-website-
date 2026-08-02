@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   setupLoader();
   setupMobileNav();
+  setupCustomCursor();
   
   // Render dynamic elements
   renderGames();
@@ -328,13 +329,44 @@ function setupContactFormTerminal(form, consoleEl) {
 
 // --- DYNAMIC RENDER FUNCTIONS FOR MODULAR CONFIGS ---
 
+// Helper function to render icon as either an image or emoji/text
+function renderIcon(icon, alt = '') {
+  if (!icon) return '';
+  const isImage = typeof icon === 'string' && (
+    /\.(png|jpe?g|svg|webp|gif|avif|ico)(\?.*)?$/i.test(icon) ||
+    /^(assets\/|images\/|https?:\/\/|\/|data:image\/)/i.test(icon)
+  );
+
+  if (isImage) {
+    return `<img src="${icon}" alt="${alt}" class="card-icon-img" />`;
+  }
+  return icon;
+}
+
 function renderGames() {
   const container = document.getElementById('games-grid');
   if (!container || typeof GAMES_DATA === 'undefined') return;
 
   container.innerHTML = GAMES_DATA.map(game => {
-    // Generate the stats HTML blocks
-    const statsHtml = game.stats.map(stat => `
+    // Merge stats and featuredStat/featuredStats
+    let cardStatsList = [];
+    if (Array.isArray(game.stats) && game.stats.length > 0) {
+      cardStatsList = [...game.stats];
+    }
+    if (Array.isArray(game.featuredStats)) {
+      cardStatsList = [...cardStatsList, ...game.featuredStats];
+    } else if (Array.isArray(game.featuredStat)) {
+      cardStatsList = [...cardStatsList, ...game.featuredStat];
+    } else if (game.featuredStat && typeof game.featuredStat === 'object') {
+      cardStatsList.push(game.featuredStat);
+    }
+    
+    // Filter duplicates
+    const uniqueStats = cardStatsList.filter((stat, idx, self) =>
+      idx === self.findIndex((s) => s.label === stat.label && s.value === stat.value)
+    );
+
+    const statsHtml = uniqueStats.map(stat => `
       <div class="card-stats">
         <span class="stat-label">${stat.label}</span>
         <span class="stat-val" style="${getGameStatStyle(game.accentClass)}">${stat.value}</span>
@@ -344,11 +376,32 @@ function renderGames() {
     const hasImages = game.images && game.images.length > 0;
     const buttonTextStyle = (game.accentClass === 'accent-red' || game.accentClass === 'accent-purple') ? 'color: #fff;' : 'color: #000;';
 
+    // Horizontal Scroll Gallery under stats
+    const galleryHtml = hasImages ? `
+      <div class="card-gallery-scroll" onclick="event.stopPropagation();">
+        ${game.images.map((imgSrc, imgIndex) => `
+          <div class="gallery-scroll-item" title="Click to view" onclick="event.stopPropagation(); openGallery(${JSON.stringify(game.images).replace(/"/g, '&quot;')}, ${imgIndex}, '${game.title}', '${game.accentClass}')">
+            <img src="${imgSrc}" alt="${game.title} screenshot ${imgIndex + 1}" loading="lazy" />
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    const hasValidLink = game.buttonLink && game.buttonLink.trim() !== '' && game.buttonLink.trim() !== '#';
+
+    const actionBtnOnClick = hasValidLink
+      ? `onclick="event.stopPropagation(); window.open('${game.buttonLink.trim()}', '_blank');"`
+      : `onclick="event.stopPropagation(); event.preventDefault(); return false;"`;
+
+    const actionBtnStyle = hasValidLink
+      ? `width: auto; padding: 9px 22px; background-color: var(--accent-color, var(--color-neon-yellow)); ${buttonTextStyle} font-weight: 900; cursor: pointer;`
+      : `width: auto; padding: 9px 22px; background-color: rgba(255,255,255,0.08); color: var(--color-text-muted); border-color: rgba(255,255,255,0.2); font-weight: 700; cursor: default; opacity: 0.75;`;
+
     return `
-      <div class="fighter-card ${game.accentClass} game-card" id="${game.id}" data-category="${game.category}" style="transition: opacity 0.3s ease; cursor: ${hasImages ? 'pointer' : 'default'};" onclick="${hasImages ? `openGallery(${JSON.stringify(game.images).replace(/"/g, '&quot;')}, 0, '${game.title}', '${game.accentClass}')` : ''}">
+      <div class="fighter-card ${game.accentClass} game-card" id="${game.id}" data-category="${game.category}" style="transition: opacity 0.3s ease;">
         <div>
           <div class="card-header">
-            <div class="card-icon">${game.icon}</div>
+            <div class="card-icon">${renderIcon(game.icon, game.title)}</div>
             <div class="card-title-group">
               <h3 class="card-title">${game.title}</h3>
               <span class="card-subtitle">${game.subtitle}</span>
@@ -361,9 +414,9 @@ function renderGames() {
         </div>
         <div>
           ${statsHtml}
-          <div class="card-action" style="display: flex; gap: 10px;">
-            <button class="btn-card" style="background-color: var(--accent-color, var(--color-neon-yellow)); ${buttonTextStyle} font-weight: 900;" onclick="event.stopPropagation(); window.open('${game.buttonLink || '#'}', '_blank')">${game.buttonText}</button>
-            ${hasImages ? `<button class="btn-card" onclick="event.stopPropagation(); openGallery(${JSON.stringify(game.images).replace(/"/g, '&quot;')}, 0, '${game.title}', '${game.accentClass}')">IMAGES</button>` : ''}
+          ${galleryHtml}
+          <div class="card-action" style="display: flex; justify-content: flex-start; margin-top: 10px;">
+            <button class="btn-card ${!hasValidLink ? 'btn-no-link' : ''}" style="${actionBtnStyle}" ${actionBtnOnClick}>${game.buttonText}</button>
           </div>
         </div>
       </div>
@@ -384,6 +437,8 @@ function getGameStatStyle(accentClass) {
       return 'background-color: var(--color-neon-purple); color: #fff;';
     case 'accent-yellow':
       return 'background-color: var(--color-neon-yellow); color: #000; font-weight: 900;';
+    case 'accent-orange':
+      return 'background-color: var(--color-neon-orange); color: #000; font-weight: 900;';
     default:
       return 'background-color: var(--color-primary); color: #000;';
   }
@@ -406,7 +461,7 @@ function renderTeam() {
       <div class="fighter-card ${member.accentClass}">
         <div>
           <div class="card-header">
-            <div class="card-icon">${member.icon}</div>
+            <div class="card-icon">${renderIcon(member.icon, member.name)}</div>
             <div class="card-title-group">
               <h3 class="card-title">${member.name}</h3>
               <span class="card-subtitle">${member.role}</span>
@@ -432,18 +487,44 @@ function renderFeaturedProject() {
   const container = document.getElementById('featured-project-container');
   if (!container || typeof GAMES_DATA === 'undefined') return;
 
-  // Find the game marked as featured, or default to the first game
-  let featuredGame = GAMES_DATA.find(game => game.featuredOnHome);
-  if (!featuredGame && GAMES_DATA.length > 0) {
-    featuredGame = GAMES_DATA[0];
+  const sectionParent = container.closest('section');
+
+  // Find game explicitly marked with featuredOnHome: true
+  let featuredGame = GAMES_DATA.find(game => game.featuredOnHome === true);
+  if (!featuredGame) {
+    container.innerHTML = '';
+    if (sectionParent) sectionParent.style.display = 'none';
+    return;
   }
-  if (!featuredGame) return;
+
+  if (sectionParent) sectionParent.style.display = 'block';
 
   const accentClass = featuredGame.accentClass || 'accent-red';
   const labelText = featuredGame.featuredLabel || 'OUT NOW';
   const textStyle = (accentClass === 'accent-red' || accentClass === 'accent-purple') ? 'color: #fff;' : 'color: #000; font-weight: 900;';
-  const displayStat = featuredGame.featuredStat || (featuredGame.stats && featuredGame.stats[0]) || { label: "DEVELOPMENT", value: "IN PROGRESS" };
   const hasImages = featuredGame.images && featuredGame.images.length > 0;
+  const hasFeaturedValidLink = featuredGame.buttonLink && featuredGame.buttonLink.trim() !== '' && featuredGame.buttonLink.trim() !== '#';
+
+  // Support featuredStats array, featuredStat array/object, or fallback to game.stats
+  let statsList = [];
+  if (Array.isArray(featuredGame.featuredStats)) {
+    statsList = featuredGame.featuredStats;
+  } else if (Array.isArray(featuredGame.featuredStat)) {
+    statsList = featuredGame.featuredStat;
+  } else if (featuredGame.featuredStat && typeof featuredGame.featuredStat === 'object') {
+    statsList = [featuredGame.featuredStat];
+  } else if (Array.isArray(featuredGame.stats) && featuredGame.stats.length > 0) {
+    statsList = featuredGame.stats;
+  } else {
+    statsList = [{ label: "DEVELOPMENT", value: "IN PROGRESS" }];
+  }
+
+  const featuredStatsHtml = statsList.map(stat => `
+    <div class="card-stats" style="margin-bottom: 10px;">
+      <span class="stat-label">${stat.label}</span>
+      <span class="stat-val" style="${getGameStatStyle(accentClass)}">${stat.value}</span>
+    </div>
+  `).join('');
 
   container.innerHTML = `
     <div class="fighter-card ${accentClass}" style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; padding: 30px; cursor: ${hasImages ? 'pointer' : 'default'};" onclick="${hasImages ? `openGallery(${JSON.stringify(featuredGame.images).replace(/"/g, '&quot;')}, 0, '${featuredGame.title}', '${featuredGame.accentClass}')` : ''}">
@@ -469,14 +550,15 @@ function renderFeaturedProject() {
         
         <div>
           <!-- Card Stats inside -->
-          <div class="card-stats" style="margin-bottom: 15px;">
-            <span class="stat-label">${displayStat.label}</span>
-            <span class="stat-val" style="background-color: var(--accent-color); ${textStyle}">${displayStat.value}</span>
+          <div style="margin-bottom: 15px;">
+            ${featuredStatsHtml}
           </div>
           
           <div style="display: flex; gap: 10px;">
             <a href="games.html" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); color: #fff; background-color: transparent; flex: 1;" onclick="event.stopPropagation();">PLAY DEMO</a>
-            <a href="${featuredGame.buttonLink || '#'}" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); ${textStyle} background-color: var(--accent-color); flex: 1.2; font-weight: 900;" onclick="event.stopPropagation();">${featuredGame.buttonText}</a>
+            ${hasFeaturedValidLink
+              ? `<a href="${featuredGame.buttonLink.trim()}" target="_blank" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); ${textStyle} background-color: var(--accent-color); flex: 1.2; font-weight: 900;" onclick="event.stopPropagation();">${featuredGame.buttonText}</a>`
+              : `<button class="btn-card btn-no-link" style="text-align: center; text-decoration: none; border-color: rgba(255,255,255,0.2); color: var(--color-text-muted); background-color: rgba(255,255,255,0.08); flex: 1.2; font-weight: 700; opacity: 0.75; cursor: default;" onclick="event.stopPropagation(); event.preventDefault(); return false;">${featuredGame.buttonText}</button>`}
           </div>
         </div>
       </div>
@@ -1369,4 +1451,82 @@ function drawRetroScanlines() {
   for (let i = 0; i < gameCanvas.height; i += 4) {
     gameCtx.fillRect(0, i, gameCanvas.width, 1.5);
   }
+}
+
+// --- SMOOTH CUSTOM CYBER CURSOR ENGINE ---
+function setupCustomCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const dot = document.createElement('div');
+  dot.className = 'custom-cursor-dot';
+
+  const ring = document.createElement('div');
+  ring.className = 'custom-cursor-ring';
+
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
+
+  let mouseX = -100, mouseY = -100;
+  let ringX = -100, ringY = -100;
+  let isVisible = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!isVisible) {
+      ringX = mouseX;
+      ringY = mouseY;
+      isVisible = true;
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+    }
+
+    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+  });
+
+  // Smooth lerp for ring follower
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.22;
+    ringY += (mouseY - ringY) * 0.22;
+
+    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+    requestAnimationFrame(animateRing);
+  }
+  requestAnimationFrame(animateRing);
+
+  // Hover detection for interactive elements
+  const interactiveSelector = 'a, button, input, textarea, select, .btn-card, .btn-live, .fighter-card, .game-card, .social-icon, .mobile-toggle, .filter-btn, .arcade-menu-item, [onclick]';
+  
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactiveSelector)) {
+      document.body.classList.add('cursor-hover');
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactiveSelector)) {
+      document.body.classList.remove('cursor-hover');
+    }
+  });
+
+  document.addEventListener('mousedown', () => {
+    document.body.classList.add('cursor-active');
+  });
+
+  document.addEventListener('mouseup', () => {
+    document.body.classList.remove('cursor-active');
+  });
+
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+    isVisible = false;
+  });
+
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+    isVisible = true;
+  });
 }

@@ -4,23 +4,27 @@
 const GAMES_DATA = [
   {
     id: "hope",
-    title: "HOPE",
+    title: "Project - HOPE",
     subtitle: "RPG",
-    category: "action", // 'action', 'rpg', 'retro', etc. (lowercase, used for filtering)
-    accentClass: "accent-red", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
+    category: "rpg", // 'action', 'rpg', 'retro', etc. (lowercase, used for filtering)
+    accentClass: "accent-red", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "⚡",
-    description: "Dodge grid lasers, dash through firewall barriers, and race against an AI collapse in this hard-as-nails speedrunner.",
-    quote: "Dodge, die, optimize, repeat.",
+    description: "A battle fought for loyalty and faith ends in betrayal, proving that the deadliest blade comes from the hand you trusted most.",
     stats: [
-      { label: "DEVELOPMENT", value: "RELEASED v1.0" },
-      { label: "STEAM REVIEWS", value: "96% POSITIVE" }
+      { label: "TO BE RELEASED", value: "v0.2" }
     ],
-    buttonText: "PLAY ON STEAM",
-    buttonLink: "#", // Add actual URL or path here
+    buttonText: "TBR",
+    buttonLink: "", // Add actual URL or path here
     featuredOnHome: true,
-    featuredLabel: "OUT NOW",
-    featuredStat: { label: "STEAM PLATFORM", value: "96% OVERWHELMINGLY POSITIVE" },
-    images: ["assets/HOPE_1.png", "assets/HOPE_2.png"]
+    featuredLabel: "TO BE RELEASED",
+    featuredStat: [
+      { label: "TO BE RELEASED", value: "v0.2" },
+      { label: "EARLY PROTOTYPE", value: "NEW!" }
+    ],
+    images: ["assets/Hope_Game_Screenshots/HOPE_4.png",
+      "assets/Hope_Game_Screenshots/HOPE_3.png",
+      "assets/Hope_Game_Screenshots/HOPE_2.png",
+      "assets/Hope_Game_Screenshots/HOPE_1.png"]
   },
 
 ];

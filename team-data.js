@@ -6,21 +6,17 @@ const TEAM_DATA = [
     id: "coder",
     name: "Rishabh Garg ",
     role: "CODE • LOGIC ARCHITECT",
-    accentClass: "accent-purple", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
-    icon: "💻",
+    accentClass: "accent-purple", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
+    icon: "assets/team-data-logo/bear.png",
     bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
     quote: "If it runs below 90fps, it's a bug.",
     stats: [
-      { label: "Caffeine Level", value: "100 / 100" },
+      { label: "Taro Level", value: "100 / 100" },
       { label: "Logic capacity", value: "96 / 100" }
     ],
     buttonText: "PORTFOLIO",
     buttonLink: "https://www.instagram.com/rishabhgarg4899/" // Add actual link or action
   },
-
-
-
-
 
   {
     id: "artist",
@@ -42,8 +38,8 @@ const TEAM_DATA = [
     id: "coder",
     name: "Sharad Mayank Sinha",
     role: "CODE • UI • Design",
-    accentClass: "accent-cyan", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
-    icon: "💻",
+    accentClass: "accent-cyan", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
+    icon: "assets/team-data-logo/ghostkwebb.png",
     bio: "Does everything that needs to be done XD",
     quote: "You're either perfect, or you're not me.",
     stats: [
@@ -58,8 +54,8 @@ const TEAM_DATA = [
   {
     id: "coder",
     name: "Siddhpura henil",
-    role: "CODE • LOGIC ARCHITECT",
-    accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow'
+    role: "Gameplay Programmer",
+    accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "💻",
     bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
     quote: "If it runs below 90fps, it's a bug.",
@@ -73,9 +69,9 @@ const TEAM_DATA = [
 
   {
     id: "storyteller",
-    name: "Dewa",
-    role: "Story-teller • SYNTHS • AUDIO GLITCHER",
-    accentClass: "accent-purple",
+    name: "Dewashish",
+    role: "Lead Writer • Music Composer",
+    accentClass: "accent-orange",
     icon: "🎹",
     bio: "just-imagination",
     quote: "If you don't die on Level 1, it's too easy.",
@@ -92,12 +88,12 @@ const TEAM_DATA = [
     name: "aditya",
     role: "legend ;)",
     accentClass: "accent-green",
-    icon: "🎮",
+    icon: "assets/team-data-logo/azax.png",
     bio: "just-imagination",
     quote: "kon ho TUM ",
     stats: [
-      { label: "System balance", value: "92 / 100" },
-      { label: "Cruelty rating", value: "88 / 100" }
+      { label: "Milk Level", value: "88 / 100" },
+      { label: "Designer balance", value: "92 / 100" }
     ],
     buttonText: "PORTFOLIO",
     buttonLink: "https://www.instagram.com/aaditya_soni2004/"
