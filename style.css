@@ -317,6 +317,91 @@ body {
   margin-top: 20px;
 }
 
+/* --- ABOUT US: CORE DATA BOX STYLES --- */
+.core-data-box {
+  background-color: var(--color-bg-card);
+  border: 3px solid var(--color-primary);
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 4px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(255, 242, 0, 0.08);
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.core-data-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(255, 242, 0, 0.25),
+    inset 0 0 25px rgba(255, 242, 0, 0.12);
+}
+
+.core-data-badge {
+  position: absolute;
+  top: -16px;
+  left: 20px;
+  background-color: var(--color-secondary);
+  color: #fff;
+  padding: 4px 16px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px #000;
+  transform: skewX(-10deg);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.core-data-badge::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #fff;
+}
+
+.core-data-main {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: #ffffff;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+.core-data-brand {
+  color: var(--color-primary);
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(255, 242, 0, 0.4);
+}
+
+.core-data-sub {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  color: var(--color-text);
+  line-height: 1.7;
+  border-left: 3px solid var(--color-secondary);
+  padding: 10px 16px;
+  margin-top: 14px;
+  font-style: italic;
+  background: rgba(255, 0, 85, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
 /* --- THE FIGHTER CARDS (Inspired by Debate Forge) --- */
 .fighter-card {
   background-color: var(--color-bg-card);
