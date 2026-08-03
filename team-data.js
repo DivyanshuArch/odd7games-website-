@@ -84,6 +84,34 @@ const TEAM_DATA = [
   },
 
   {
+    id: "3D Artist",
+    name: "Devi Prasad Nayak",
+    role: "3D Artist",
+    accentClass: "accent-blue",
+    icon: "3D",
+    bio: `I've been doing Blender since early mid of 2025. And yes, somewhat of Unreal Engine.
+
+    Picked up a pencil to draw and do art when I was in class 4. It all started from a simple practice, but later on in 2018 something inspired me to draw (I don't remember what), and now that small fire turned into a big flame wanting to go forward and never stop...
+
+    Joined SRM University pursuing gaming tech because I loved to play games... and soon I saw an opening where I can use my art experience — in game art.
+
+    Began to search what tools we need to learn so that I can contribute towards the game art... that's when I saw Sir Andrew's aka Blender Guru's donut tutorial.
+
+    And guess what? I fell into doing Blender more and more. Although I've not forgotten 2D... Instead, I got a graphic tablet and started digital too.
+
+    That's the story of my journey... And I'm still learning and improving... Everyday something new...
+
+    I just love blending...`,
+    quote: "",
+    stats: [
+      { label: "System balance", value: "92 / 100" },
+      { label: "Cruelty rating", value: "88 / 100" }
+    ],
+    buttonText: "PORTFOLIO",
+    buttonLink: "https://foulquince.artstation.com/"
+  },
+
+  {
     id: "legend",
     name: "aditya",
     role: "legend ;)",
