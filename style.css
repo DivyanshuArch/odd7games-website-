@@ -1574,72 +1574,214 @@ body {
   box-shadow: 0 0 20px var(--color-neon-yellow);
 }
 
-/* --- RETRO CYBER SMOOTH CUSTOM CURSOR --- */
+/* --- RETRO CYBER HUD CUSTOM CURSOR ENGINE --- */
 @media (pointer: fine) {
-  html, body, *, *::before, *::after {
+  html, body, a, button, input, textarea, select, label {
     cursor: none !important;
   }
 
+  /* Core Precision Pointer (Hardware 1:1, Zero Lag Hotspot) */
   .custom-cursor-dot {
     position: fixed;
     top: 0;
     left: 0;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background-color: var(--color-neon-yellow);
     border-radius: 50%;
     pointer-events: none;
     z-index: 10000;
-    box-shadow: 0 0 10px var(--color-neon-yellow), 0 0 20px var(--color-neon-pink);
-    transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.3s ease;
+    box-shadow: 0 0 8px var(--color-neon-yellow), 0 0 16px var(--color-neon-pink);
+    transition: width 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+                height 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+                background-color 0.2s ease,
+                border-radius 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.25s ease;
     will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  /* Tiny Inner Pin (100% Crisp Target Center) */
+  .custom-cursor-dot::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px #ffffff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* Cyber Reticle Follower Ring */
   .custom-cursor-ring {
     position: fixed;
     top: 0;
     left: 0;
-    width: 32px;
-    height: 32px;
-    border: 2px solid var(--color-neon-pink);
+    width: 36px;
+    height: 36px;
+    border: 1.5px dashed var(--color-neon-pink);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    box-shadow: 0 0 14px rgba(255, 0, 85, 0.45);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.35);
     transition: width 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 height 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 border-color 0.25s ease, 
+                border-style 0.25s ease,
                 background-color 0.25s ease,
                 box-shadow 0.25s ease,
                 opacity 0.3s ease;
     will-change: transform;
   }
 
-  /* Interactive Hover State */
+  /* HUD Corner Notch Accents on Ring */
+  .custom-cursor-ring::before,
+  .custom-cursor-ring::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 2px solid transparent;
+    pointer-events: none;
+    transition: all 0.25s ease;
+  }
+
+  .custom-cursor-ring::before {
+    border-top-color: var(--color-neon-yellow);
+    border-bottom-color: var(--color-neon-yellow);
+    border-radius: 50%;
+  }
+
+  .custom-cursor-ring::after {
+    border-left-color: var(--color-neon-pink);
+    border-right-color: var(--color-neon-pink);
+    border-radius: 50%;
+  }
+
+  /* --- STATE 1: INTERACTIVE HOVER STATE (Buttons, Links, Cards) --- */
   body.cursor-hover .custom-cursor-ring {
     width: 48px;
     height: 48px;
+    border-style: solid;
     border-color: var(--color-neon-cyan);
-    background-color: rgba(0, 229, 255, 0.08);
-    box-shadow: 0 0 22px rgba(0, 229, 255, 0.6);
+    background-color: rgba(0, 229, 255, 0.12);
+    box-shadow: 0 0 24px rgba(0, 229, 255, 0.5), inset 0 0 12px rgba(0, 229, 255, 0.2);
+  }
+
+  body.cursor-hover .custom-cursor-ring::before {
+    border-top-color: var(--color-neon-cyan);
+    border-bottom-color: var(--color-neon-cyan);
+    inset: -6px;
+  }
+
+  body.cursor-hover .custom-cursor-ring::after {
+    border-left-color: var(--color-neon-yellow);
+    border-right-color: var(--color-neon-yellow);
+    inset: -6px;
   }
 
   body.cursor-hover .custom-cursor-dot {
+    width: 12px;
+    height: 12px;
     background-color: var(--color-neon-cyan);
-    box-shadow: 0 0 12px var(--color-neon-cyan);
+    box-shadow: 0 0 14px var(--color-neon-cyan);
   }
 
-  /* Click / Active State */
+  body.cursor-hover .custom-cursor-dot::after {
+    transform: scale(1.3);
+  }
+
+  /* --- STATE 2: TEXT INPUT CURSOR STATE (Clear & Unambiguous I-Beam) --- */
+  body.cursor-text .custom-cursor-dot {
+    width: 4px;
+    height: 22px;
+    border-radius: 2px;
+    background-color: var(--color-neon-yellow);
+    box-shadow: 0 0 10px var(--color-neon-yellow);
+  }
+
+  body.cursor-text .custom-cursor-dot::after {
+    opacity: 0;
+  }
+
+  body.cursor-text .custom-cursor-ring {
+    width: 18px;
+    height: 26px;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: rgba(255, 242, 0, 0.4);
+    background-color: transparent;
+    opacity: 0.3;
+    box-shadow: none;
+  }
+
+  body.cursor-text .custom-cursor-ring::before,
+  body.cursor-text .custom-cursor-ring::after {
+    opacity: 0;
+  }
+
+  /* --- STATE 3: CLICK / ACTIVE SHOCKWAVE STATE --- */
   body.cursor-active .custom-cursor-ring {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-color: var(--color-neon-yellow);
-    background-color: rgba(255, 242, 0, 0.15);
-    box-shadow: 0 0 25px var(--color-neon-yellow);
+    background-color: rgba(255, 242, 0, 0.25);
+    box-shadow: 0 0 30px var(--color-neon-yellow);
   }
 
   body.cursor-active .custom-cursor-dot {
-    background-color: var(--color-neon-yellow);
-    box-shadow: 0 0 15px var(--color-neon-yellow);
+    transform: scale(0.85);
+    background-color: #ffffff;
+    box-shadow: 0 0 18px var(--color-neon-yellow);
+  }
+
+  /* Dynamic Click Ripple Shockwave */
+  .custom-cursor-ripple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-neon-cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%) scale(1);
+    animation: cursorRippleAnim 0.38s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  }
+
+  @keyframes cursorRippleAnim {
+    0% {
+      width: 20px;
+      height: 20px;
+      opacity: 1;
+      border-color: var(--color-neon-cyan);
+      box-shadow: 0 0 15px var(--color-neon-cyan);
+    }
+    50% {
+      border-color: var(--color-neon-pink);
+    }
+    100% {
+      width: 65px;
+      height: 65px;
+      opacity: 0;
+      border-color: var(--color-neon-yellow);
+      box-shadow: 0 0 30px var(--color-neon-yellow);
+    }
+  }
+
+  /* Continuous Laser Ribbon Line Trail Canvas */
+  .custom-cursor-trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9997;
   }
 }
+
+

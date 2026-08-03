@@ -135,25 +135,53 @@ function setupMobileNav() {
   }
 }
 
-// 3. RETRO AUDIO SYNTHESIS (WEB AUDIO API)
+// 3. RETRO AUDIO SYNTHESIS (WEB AUDIO API - BOOSTED SOUND ENGINE)
 let audioCtx = null;
+let masterGain = null;
+let masterCompressor = null;
+
+function initAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Master Gain Boost Node (2.8x Volume Boost)
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(2.8, audioCtx.currentTime);
+
+    // Dynamics Compressor Limiter to prevent clipping/distortion when boosted
+    masterCompressor = audioCtx.createDynamicsCompressor();
+    masterCompressor.threshold.setValueAtTime(-6, audioCtx.currentTime);
+    masterCompressor.knee.setValueAtTime(15, audioCtx.currentTime);
+    masterCompressor.ratio.setValueAtTime(10, audioCtx.currentTime);
+    masterCompressor.attack.setValueAtTime(0.002, audioCtx.currentTime);
+    masterCompressor.release.setValueAtTime(0.1, audioCtx.currentTime);
+
+    masterGain.connect(masterCompressor);
+    masterCompressor.connect(audioCtx.destination);
+  }
+  
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
 function setupAudioSynth() {
-  // Add retro beeps to buttons and links on click
-  const interactiveElements = document.querySelectorAll('a, button, .btn-card, .btn-live');
+  // Add boosted retro beeps to buttons, links, and cards on click and hover
+  const interactiveElements = document.querySelectorAll('a, button, .btn-card, .btn-live, .game-card, .fighter-card, .arcade-menu-item, .filter-btn');
   
   interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
-      // Light tick on hover
-      playRetroBeep(600, 'sine', 0.02, 0.05);
+      // Crisp boosted tick on hover
+      playRetroBeep(750, 'sine', 0.03, 0.12);
     });
     
-    el.addEventListener('click', (e) => {
-      // Bold beep on click
-      if (el.classList.contains('btn-live') || el.classList.contains('nav-cta')) {
-        playRetroBeep(440, 'square', 0.15, 0.1);
-        setTimeout(() => playRetroBeep(554.37, 'square', 0.15, 0.1), 100);
+    el.addEventListener('click', () => {
+      // Punchy boosted beep on click
+      if (el.classList.contains('btn-live') || el.classList.contains('nav-cta') || el.classList.contains('arcade-btn-action')) {
+        playRetroBeep(520, 'square', 0.15, 0.22);
+        setTimeout(() => playRetroBeep(659.25, 'square', 0.18, 0.22), 90);
       } else {
-        playRetroBeep(330, 'triangle', 0.08, 0.1);
+        playRetroBeep(380, 'triangle', 0.09, 0.18);
       }
     });
   });
@@ -161,14 +189,8 @@ function setupAudioSynth() {
 
 function playRetroBeep(frequency, type = 'sine', duration = 0.1, volume = 0.1) {
   try {
-    // Lazy initialize AudioContext on user gesture
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    initAudioContext();
+    if (!audioCtx || !masterGain) return;
     
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -176,12 +198,13 @@ function playRetroBeep(frequency, type = 'sine', duration = 0.1, volume = 0.1) {
     osc.type = type;
     osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     
-    // Smooth volume decay to avoid speaker pops
-    gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    // Smooth volume decay with boosted baseline output
+    const boostedVol = Math.min(0.95, volume * 2.2);
+    gain.gain.setValueAtTime(boostedVol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
     
     osc.connect(gain);
-    gain.connect(audioCtx.destination);
+    gain.connect(masterGain);
     
     osc.start();
     osc.stop(audioCtx.currentTime + duration);
@@ -1525,7 +1548,7 @@ function drawRetroScanlines() {
   }
 }
 
-// --- SMOOTH CUSTOM CYBER CURSOR ENGINE ---
+// --- RETRO CYBER HUD CUSTOM CURSOR ENGINE WITH LASER RIBBON TRAIL ---
 function setupCustomCursor() {
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
@@ -1535,12 +1558,32 @@ function setupCustomCursor() {
   const ring = document.createElement('div');
   ring.className = 'custom-cursor-ring';
 
+  // Continuous Laser Line Trail Canvas Layer
+  const trailCanvas = document.createElement('canvas');
+  trailCanvas.className = 'custom-cursor-trail-canvas';
+
+  document.body.appendChild(trailCanvas);
   document.body.appendChild(dot);
   document.body.appendChild(ring);
+
+  const ctx = trailCanvas.getContext('2d');
+
+  function resizeCanvas() {
+    trailCanvas.width = window.innerWidth;
+    trailCanvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
   let mouseX = -100, mouseY = -100;
   let ringX = -100, ringY = -100;
   let isVisible = false;
+  let rotAngle = 0;
+
+  // History buffer for continuous laser ribbon line trail
+  const points = [];
+  const MAX_POINTS = 28;       // Number of points in trail line
+  const TRAIL_LIFETIME = 280;  // Milliseconds point remains visible
 
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
@@ -1554,36 +1597,141 @@ function setupCustomCursor() {
       ring.style.opacity = '1';
     }
 
+    // Hardware 1:1 precision hotspot positioning
     dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+
+    // Push point into laser trail buffer
+    if (!document.body.classList.contains('cursor-text')) {
+      points.push({
+        x: mouseX,
+        y: mouseY,
+        time: performance.now()
+      });
+    }
   });
 
-  // Smooth lerp for ring follower
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.22;
-    ringY += (mouseY - ringY) * 0.22;
+  // Combined Render Loop: Reticle Physics + Laser Ribbon Line Drawing
+  function animate() {
+    const now = performance.now();
 
-    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(animateRing);
+    // 1. Ring Follower Physics Lerp
+    const dx = mouseX - ringX;
+    const dy = mouseY - ringY;
+    ringX += dx * 0.35;
+    ringY += dy * 0.35;
+
+    const isHover = document.body.classList.contains('cursor-hover');
+    rotAngle += isHover ? 1.5 : 0.4;
+    if (rotAngle >= 360) rotAngle = 0;
+
+    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) rotate(${rotAngle}deg)`;
+
+    // 2. Render Continuous Laser Ribbon Line Trail on Canvas
+    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+    // Remove expired points
+    while (points.length > 0 && (now - points[0].time > TRAIL_LIFETIME || points.length > MAX_POINTS)) {
+      points.shift();
+    }
+
+    if (points.length > 1 && isVisible && !document.body.classList.contains('cursor-text')) {
+      // Pass 1: Outer Glowing Neon Laser Ribbon
+      for (let i = 1; i < points.length; i++) {
+        const p1 = points[i - 1];
+        const p2 = points[i];
+        const progress = i / points.length; // 0 (tail) -> 1 (head)
+        const age = now - p2.time;
+        const alpha = Math.max(0, (1 - age / TRAIL_LIFETIME) * Math.pow(progress, 0.7));
+
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineWidth = 2 + progress * 6; // Taper line from 8px head down to 2px tail
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const strokeColor = isHover 
+          ? `rgba(0, 229, 255, ${alpha * 0.95})` 
+          : `rgba(255, 0, 85, ${alpha * 0.85})`;
+        ctx.strokeStyle = strokeColor;
+        ctx.shadowColor = isHover ? '#00e5ff' : '#ff0055';
+        ctx.shadowBlur = 14 * progress;
+        ctx.stroke();
+      }
+
+      // Pass 2: Inner Ultra-Bright Electric Core Line
+      for (let i = 1; i < points.length; i++) {
+        const p1 = points[i - 1];
+        const p2 = points[i];
+        const progress = i / points.length;
+        const age = now - p2.time;
+        const alpha = Math.max(0, (1 - age / TRAIL_LIFETIME) * Math.pow(progress, 0.5));
+
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.lineWidth = 1 + progress * 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = `rgba(255, 242, 0, ${alpha})`;
+        ctx.shadowColor = '#fff200';
+        ctx.shadowBlur = 6 * progress;
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(animate);
   }
-  requestAnimationFrame(animateRing);
+  requestAnimationFrame(animate);
 
-  // Hover detection for interactive elements
-  const interactiveSelector = 'a, button, input, textarea, select, .btn-card, .btn-live, .fighter-card, .game-card, .social-icon, .mobile-toggle, .filter-btn, .arcade-menu-item, [onclick]';
-  
+  // Selectors for interactive vs text elements
+  const interactiveSelector = 'a, button, select, .btn-card, .btn-live, .fighter-card, .game-card, .social-icon, .mobile-toggle, .filter-btn, .arcade-menu-item, .hero-cta, [onclick], [role="button"]';
+  const textSelector = 'input[type="text"], input[type="email"], input[type="number"], input[type="search"], input[type="password"], textarea, [contenteditable="true"]';
+
+  // Smart context-aware hover detection
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(interactiveSelector)) {
+    const textTarget = e.target.closest(textSelector);
+    const interactiveTarget = e.target.closest(interactiveSelector);
+
+    if (textTarget) {
+      document.body.classList.add('cursor-text');
+      document.body.classList.remove('cursor-hover');
+    } else if (interactiveTarget) {
       document.body.classList.add('cursor-hover');
+      document.body.classList.remove('cursor-text');
     }
   });
 
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(interactiveSelector)) {
+    const textTarget = e.target.closest(textSelector);
+    const interactiveTarget = e.target.closest(interactiveSelector);
+
+    if (textTarget) {
+      document.body.classList.remove('cursor-text');
+    }
+    if (interactiveTarget) {
       document.body.classList.remove('cursor-hover');
     }
   });
 
-  document.addEventListener('mousedown', () => {
+  // Tactile Click Shockwave Feedback
+  document.addEventListener('mousedown', (e) => {
     document.body.classList.add('cursor-active');
+
+    // Spawn cyber click ripple burst
+    if (isVisible) {
+      const ripple = document.createElement('div');
+      ripple.className = 'custom-cursor-ripple';
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+
+      setTimeout(() => {
+        if (ripple.parentNode) {
+          ripple.parentNode.removeChild(ripple);
+        }
+      }, 380);
+    }
   });
 
   document.addEventListener('mouseup', () => {
@@ -1594,9 +1742,14 @@ function setupCustomCursor() {
     dot.style.opacity = '0';
     ring.style.opacity = '0';
     isVisible = false;
+    points.length = 0;
   });
 
-  document.addEventListener('mouseenter', () => {
+  document.addEventListener('mouseenter', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    ringX = mouseX;
+    ringY = mouseY;
     dot.style.opacity = '1';
     ring.style.opacity = '1';
     isVisible = true;
