@@ -8,8 +8,8 @@ const TEAM_DATA = [
     role: "CODE • LOGIC ARCHITECT",
     accentClass: "accent-purple", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "assets/team-data-logo/bear.png",
-    bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
-    quote: "If it runs below 90fps, it's a bug.",
+    bio: "I build the C++ logic. I tell the characters how to move, the UI how to look, and the game how to not break. If it runs perfectly, you're welcome. If it crashes, it's a feature.",
+    quote: "I don't write bugs. I create highly advanced, unintended gameplay mechanics.",
     stats: [
       { label: "Taro Level", value: "100 / 100" },
       { label: "Logic capacity", value: "96 / 100" }
