@@ -58,7 +58,7 @@ const TEAM_DATA = [
     accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "💻",
     bio: "Converts caffeine directly into game loops. Constantly tweaking garbage collection cycles, optimizing thread runtimes, and fighting for every microsecond on Steam Deck hardware.",
-    quote: "If it runs below 90fps, it's a bug.",
+    quote: "Born for Coding",
     stats: [
       { label: "Caffeine Level", value: "100 / 100" },
       { label: "Logic capacity", value: "96 / 100" }
