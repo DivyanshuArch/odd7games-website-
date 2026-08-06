@@ -4,7 +4,7 @@
 const TEAM_DATA = [
   {
     id: "coder",
-    name: "Rishabh Garg ",
+    name: "Rishabh",
     role: "CODE • LOGIC ARCHITECT",
     accentClass: "accent-purple", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "assets/team-data-logo/bear.png",
@@ -20,7 +20,7 @@ const TEAM_DATA = [
 
   {
     id: "artist",
-    name: "Divyanshu Priyadarshi",
+    name: "Divyanshu",
     role: "3D • STYLE DIRECTOR",
     accentClass: "accent-red",
     icon: "🎨",
@@ -36,7 +36,7 @@ const TEAM_DATA = [
 
   {
     id: "coder",
-    name: "Sharad Mayank Sinha",
+    name: "Sharad",
     role: "CODE • UI • Design",
     accentClass: "accent-cyan", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "assets/team-data-logo/ghostkwebb.png",
@@ -53,7 +53,7 @@ const TEAM_DATA = [
 
   {
     id: "coder",
-    name: "Siddhpura henil",
+    name: "Henil",
     role: "Gameplay Programmer",
     accentClass: "accent-yellow", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "💻",
@@ -73,36 +73,24 @@ const TEAM_DATA = [
     role: "Lead Writer • Music Composer",
     accentClass: "accent-orange",
     icon: "🎹",
-    bio: "just-imagination",
+    bio: "I'm a Music Composer and Story writer. Usually I am involved in making music, Lead story writing, Level designing, dialogue writing and other art works.",
     quote: "If you don't die on Level 1, it's too easy.",
     stats: [
       { label: "System balance", value: "92 / 100" },
       { label: "Cruelty rating", value: "88 / 100" }
     ],
     buttonText: "PORTFOLIO",
-    buttonLink: "https://www.instagram.com/maxpayne191227/"
+    buttonLink: "https://www.instagram.com/dewabhau007"
   },
 
   {
     id: "3D Artist",
-    name: "Devi Prasad Nayak",
+    name: "Devi",
     role: "3D Artist",
     accentClass: "accent-blue",
     icon: "3D",
-    bio: `I've been doing Blender since early mid of 2025. And yes, somewhat of Unreal Engine.
-
-    Picked up a pencil to draw and do art when I was in class 4. It all started from a simple practice, but later on in 2018 something inspired me to draw (I don't remember what), and now that small fire turned into a big flame wanting to go forward and never stop...
-
-    Joined SRM University pursuing gaming tech because I loved to play games... and soon I saw an opening where I can use my art experience — in game art.
-
-    Began to search what tools we need to learn so that I can contribute towards the game art... that's when I saw Sir Andrew's aka Blender Guru's donut tutorial.
-
-    And guess what? I fell into doing Blender more and more. Although I've not forgotten 2D... Instead, I got a graphic tablet and started digital too.
-
-    That's the story of my journey... And I'm still learning and improving... Everyday something new...
-
-    I just love blending...`,
-    quote: "",
+    bio: "I've been doing Blender since early mid of 2025. And yes, somewhat of Unreal Engine.\n\nPicked up a pencil to draw and do art when I was in class 4. It all started from a simple practice, but later on in 2018 something inspired me to draw (I don't remember what), and now that small fire turned into a big flame wanting to go forward and never stop...\n\nJoined SRM University pursuing gaming tech because I loved to play games... and soon I saw an opening where I can use my art experience — in game art.\n\nBegan to search what tools we need to learn so that I can contribute towards the game art... that's when I saw Sir Andrew's aka Blender Guru's donut tutorial.\n\nAnd guess what? I fell into doing Blender more and more. Although I've not forgotten 2D... Instead, I got a graphic tablet and started digital too.\n\nThat's the story of my journey... And I'm still learning and improving... Everyday something new...",
+    quote: "I just love blending...",
     stats: [
       { label: "System balance", value: "92 / 100" },
       { label: "Cruelty rating", value: "88 / 100" }
@@ -113,7 +101,7 @@ const TEAM_DATA = [
 
   {
     id: "legend",
-    name: "aditya",
+    name: "Aditya",
     role: "legend ;)",
     accentClass: "accent-green",
     icon: "assets/team-data-logo/azax.png",

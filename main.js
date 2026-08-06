@@ -552,6 +552,8 @@ function renderTeam() {
       </div>
     `).join('');
 
+    const isLongBio = member.bio && member.bio.trim().length > 150;
+
     return `
       <div class="fighter-card ${member.accentClass}">
         <div>
@@ -563,7 +565,10 @@ function renderTeam() {
             </div>
           </div>
           <div class="card-body">
-            ${member.bio}
+            <div class="card-bio">
+              <div class="bio-content ${isLongBio ? 'is-truncated' : ''}">${member.bio}</div>
+              ${isLongBio ? `<button class="bio-toggle-btn" onclick="toggleBio(this)">SHOW MORE ▼</button>` : ''}
+            </div>
             ${member.quote ? `<div class="card-quote">"${member.quote}"</div>` : ''}
           </div>
         </div>
@@ -576,6 +581,22 @@ function renderTeam() {
       </div>
     `;
   }).join('');
+}
+
+function toggleBio(btn) {
+  const container = btn.closest('.card-bio');
+  if (!container) return;
+  const content = container.querySelector('.bio-content');
+  if (!content) return;
+
+  const isTruncated = content.classList.toggle('is-truncated');
+  if (!isTruncated) {
+    btn.innerHTML = 'SHOW LESS ▲';
+    btn.classList.add('expanded');
+  } else {
+    btn.innerHTML = 'SHOW MORE ▼';
+    btn.classList.remove('expanded');
+  }
 }
 
 function renderFeaturedProject() {
