@@ -21,7 +21,7 @@ const TEAM_DATA = [
   {
     id: "artist",
     name: "Divyanshu",
-    role: "3D • STYLE DIRECTOR",
+    role: "3D • STYLE DIRECTOR ",
     accentClass: "accent-red",
     icon: "🎨",
     bio: " a 3D artist & passionate programmer",
