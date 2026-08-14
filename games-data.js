@@ -9,7 +9,7 @@ const GAMES_DATA = [
     category: "rpg", // 'action', 'rpg', 'retro', etc. (lowercase, used for filtering)
     accentClass: "accent-red", // Styling accents: 'accent-red', 'accent-cyan', 'accent-green', 'accent-purple', 'accent-yellow', 'accent-orange'
     icon: "⚡",
-    description: "A battle fought for loyalty and faith ends in betrayal, proving that the deadliest blade comes from the hand you trusted most.",
+    description: "A primordial shadow has awakened, plunging the realm of Madhyagrah into peril. Burdened with the fate of his kingdom, the valiant warrior Vijay is sent forth into the unknown to seek salvation. The survival of the realm rests upon his shoulders alone, for legends speak of only one force capable of vanquishing this ancient evil: the sacred Vardaan.",
     stats: [
       { label: "TO BE RELEASED", value: "v0.2" }
     ],
