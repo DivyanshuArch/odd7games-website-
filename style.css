@@ -616,6 +616,76 @@ body {
   transform: none !important;
 }
 
+/* --- PLATFORM DOWNLOAD BUTTONS (WIN, LINUX, MAC) --- */
+.platform-downloads-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.platform-downloads-badge {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.platform-downloads-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.platform-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background-color: var(--color-bg-card, #0a0614);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-fast, all 0.2s ease);
+  position: relative;
+}
+
+.platform-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.platform-btn:hover {
+  background-color: var(--accent-color, var(--color-neon-yellow));
+  color: #000;
+  border-color: var(--accent-color, var(--color-neon-yellow));
+  box-shadow: 0 0 12px var(--accent-color, var(--color-neon-yellow));
+  transform: translateY(-2px);
+}
+
+.platform-btn:hover svg {
+  transform: scale(1.12);
+}
+
+.platform-btn:active {
+  transform: translateY(0);
+}
+
+.accent-red .platform-btn:hover,
+.accent-purple .platform-btn:hover {
+  color: #fff;
+}
+
 /* --- HORIZONTAL SCROLL GALLERY FOR CARDS --- */
 .card-gallery-scroll {
   display: flex;

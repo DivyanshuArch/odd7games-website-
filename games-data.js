@@ -13,18 +13,31 @@ const GAMES_DATA = [
     stats: [
       { label: "TO BE RELEASED", value: "v0.2" }
     ],
-    buttonText: "TBR",
-    buttonLink: "", // Add actual URL or path here
+    buttonText: "DEMO",
+    buttonLink: "https://drive.google.com/uc?export=download&id=1_VVm4sgP0P48bBqu8ocwYU0Q-nk7p0X-", // Add actual URL or path here
+
+    // Platform download links (Windows, Linux, Mac/Max)
+    // Add Google Drive file links (or direct download URLs) below.
+    // If a link is provided, its OS logo will appear in the game card.
+    // Clicking the logo will trigger direct download of the file.
+    platforms: {
+      win: "https://drive.google.com/uc?export=download&id=1_VVm4sgP0P48bBqu8ocwYU0Q-nk7p0X-",   // Windows download URL (e.g. Google Drive link)
+      linux: "", // Linux download URL
+      max: ""    // Mac / Max download URL (or 'mac')
+    },
+
     featuredOnHome: true,
     featuredLabel: "TO BE RELEASED",
     featuredStat: [
       { label: "TO BE RELEASED", value: "v0.2" },
       { label: "EARLY PROTOTYPE", value: "NEW!" }
     ],
-    images: ["assets/Hope_Game_Screenshots/HOPE_4.png",
-      "assets/Hope_Game_Screenshots/HOPE_3.png",
-      "assets/Hope_Game_Screenshots/HOPE_2.png",
-      "assets/Hope_Game_Screenshots/HOPE_1.png"]
+    images: ["assets/screenshots/image2.png",
+      "assets/screenshots/image.png",
+      "assets/screenshots/image1.png",
+      "assets/screenshots/image2.png",
+      "assets/screenshots/image3.png",
+      "assets/screenshots/image4.png"]
   },
 
 ];
