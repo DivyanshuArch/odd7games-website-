@@ -514,7 +514,7 @@ function renderPlatformDownloads(game) {
     const isFolder = plat.link.includes('/drive/folders/');
 
     buttons.push(`
-      <a href="${downloadUrl}" class="platform-btn platform-${plat.key}" title="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" aria-label="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" ${isFolder ? 'target="_blank" rel="noopener noreferrer"' : 'download'} onclick="event.stopPropagation();">
+      <a href="${downloadUrl}" class="platform-btn platform-${plat.key}" title="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" aria-label="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" ${isFolder ? 'target="_blank" rel="noopener noreferrer"' : 'download rel="noreferrer" referrerpolicy="no-referrer"'} onclick="event.stopPropagation();">
         ${plat.icon}
       </a>
     `);
@@ -770,7 +770,7 @@ function renderFeaturedProject() {
           </div>
           
           <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-            <a href="games.html" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); color: #fff; background-color: transparent; flex: 1;" onclick="event.stopPropagation();">PLAY DEMO</a>
+            <a href="games.html" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); color: #fff; background-color: transparent; flex: 1;" onclick="event.stopPropagation();">VIEW</a>
             ${hasFeaturedValidLink
               ? `<a href="${featuredGame.buttonLink.trim()}" target="_blank" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); ${textStyle} background-color: var(--accent-color); flex: 1.2; font-weight: 900;" onclick="event.stopPropagation();">${featuredGame.buttonText}</a>`
               : `<button class="btn-card btn-no-link" style="text-align: center; text-decoration: none; border-color: rgba(255,255,255,0.2); color: var(--color-text-muted); background-color: rgba(255,255,255,0.08); flex: 1.2; font-weight: 700; opacity: 0.75; cursor: default;" onclick="event.stopPropagation(); event.preventDefault(); return false;">${featuredGame.buttonText}</button>`}
