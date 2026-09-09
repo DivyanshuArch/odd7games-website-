@@ -496,41 +496,213 @@ function getGamePlatforms(game) {
   };
 }
 
-// Renders the platform download logos for a game if any links are defined
-function renderPlatformDownloads(game) {
-  if (!game) return '';
+// Detect visitor operating system ('win', 'mac', 'linux')
+function detectUserOS() {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  const platform = (navigator.platform || '').toLowerCase();
+  if (ua.includes('mac') || platform.includes('mac') || ua.includes('darwin') || ua.includes('iphone') || ua.includes('ipad')) {
+    return 'mac';
+  }
+  if (ua.includes('linux') || platform.includes('linux') || ua.includes('android')) {
+    return 'linux';
+  }
+  if (ua.includes('win') || platform.includes('win')) {
+    return 'win';
+  }
+  return 'win';
+}
+
+// Retrieves only platforms with configured, non-empty download links
+function getAvailableGamePlatforms(game) {
+  if (!game) return [];
   const platforms = getGamePlatforms(game);
-  const buttons = [];
-
-  const platformList = [
-    { key: 'win', name: 'Windows', icon: PLATFORM_ICONS.win.iconSvg, link: platforms.win },
-    { key: 'linux', name: 'Linux', icon: PLATFORM_ICONS.linux.iconSvg, link: platforms.linux },
-    { key: 'mac', name: 'Mac', icon: PLATFORM_ICONS.mac.iconSvg, link: platforms.mac }
+  const platformDefs = [
+    { key: 'win', name: 'Windows', shortName: 'WIN', label: 'Windows (64-bit)', icon: PLATFORM_ICONS.win.iconSvg, link: platforms.win },
+    { key: 'mac', name: 'macOS', shortName: 'MAC', label: 'macOS (Universal)', icon: PLATFORM_ICONS.mac.iconSvg, link: platforms.mac },
+    { key: 'linux', name: 'Linux', shortName: 'LINUX', label: 'Linux (x86_64)', icon: PLATFORM_ICONS.linux.iconSvg, link: platforms.linux }
   ];
+  return platformDefs.filter(p => p.link && p.link !== '#' && p.link.trim() !== '');
+}
 
-  platformList.forEach(plat => {
-    if (!plat.link) return;
-    const downloadUrl = formatDownloadUrl(plat.link);
-    const isFolder = plat.link.includes('/drive/folders/');
+// Renders the smart OS-detected split action button with dropdown for alternative platforms
+function renderSmartDownloadButton(game, isFeatured = false) {
+  if (!game) return '';
+  const available = getAvailableGamePlatforms(game);
+  const userOS = detectUserOS();
 
-    buttons.push(`
-      <a href="${downloadUrl}" class="platform-btn platform-${plat.key}" title="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" aria-label="${isFolder ? `Open ${plat.name} Folder` : `Download for ${plat.name}`}" ${isFolder ? 'target="_blank" rel="noopener noreferrer"' : 'download rel="noreferrer" referrerpolicy="no-referrer"'} onclick="event.stopPropagation();">
-        ${plat.icon}
-      </a>
-    `);
-  });
+  // If no platforms configured, fallback to buttonLink or disabled state
+  if (available.length === 0) {
+    const hasValidLink = game.buttonLink && game.buttonLink.trim() !== '' && game.buttonLink.trim() !== '#';
+    const label = game.buttonText || 'COMING SOON';
+    if (hasValidLink) {
+      return `
+        <div class="game-download-control ${isFeatured ? 'featured-control' : ''}" onclick="event.stopPropagation();">
+          <a href="${formatDownloadUrl(game.buttonLink.trim())}" class="btn-card btn-download-primary" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">
+            <span class="download-btn-text">${label}</span>
+          </a>
+        </div>
+      `;
+    }
+    return `
+      <div class="game-download-control ${isFeatured ? 'featured-control' : ''}" onclick="event.stopPropagation();">
+        <button class="btn-card btn-no-link" style="opacity: 0.65; cursor: default;" onclick="event.stopPropagation(); event.preventDefault(); return false;">
+          <span class="download-btn-text">${label}</span>
+        </button>
+      </div>
+    `;
+  }
 
-  if (buttons.length === 0) return '';
+  // Determine primary platform: match detected OS if available, else fallback to first available
+  let primary = available.find(p => p.key === userOS);
+  if (!primary) {
+    primary = available[0];
+  }
 
+  const targetAttr = 'target="_blank" rel="noopener noreferrer"';
+  const downloadUrl = formatDownloadUrl(primary.link);
+  const primaryTitle = `Download ${game.title} for ${primary.name}`;
+  const actionPrefix = game.buttonText || 'DEMO';
+
+  // If ONLY 1 platform build exists, show unified button without caret dropdown
+  if (available.length === 1) {
+    return `
+      <div class="game-download-control ${isFeatured ? 'featured-control' : ''}" onclick="event.stopPropagation();">
+        <a href="${downloadUrl}" class="btn-card btn-download-primary" title="${primaryTitle}" ${targetAttr} onclick="event.stopPropagation();">
+          <span class="download-os-icon">${primary.icon}</span>
+          <span class="download-btn-text">${actionPrefix} (${primary.shortName})</span>
+        </a>
+      </div>
+    `;
+  }
+
+  // If 2+ platforms exist, show smart split button with dropdown platform switcher
   return `
-    <div class="platform-downloads-wrap" onclick="event.stopPropagation();">
-      <span class="platform-downloads-badge">GET:</span>
-      <div class="platform-downloads-group">
-        ${buttons.join('')}
+    <div class="game-download-control split-dropdown ${isFeatured ? 'featured-control' : ''}" data-game-id="${game.id}" onclick="event.stopPropagation();">
+      <a href="${downloadUrl}" class="btn-card btn-download-primary" title="${primaryTitle}" ${targetAttr} onclick="event.stopPropagation();">
+        <span class="download-os-icon">${primary.icon}</span>
+        <span class="download-btn-text">${actionPrefix} (${primary.shortName})</span>
+      </a>
+      <button type="button" class="btn-dropdown-toggle" aria-label="Select platform" title="Choose platform (${available.map(p => p.name).join(', ')})" onclick="toggleGameDropdown(event, this)">
+        <svg class="dropdown-caret" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M7 10l5 5 5-5z"/>
+        </svg>
+      </button>
+      <div class="download-dropdown-menu" onclick="event.stopPropagation();">
+        <div class="dropdown-header">SWITCH PLATFORM</div>
+        <div class="dropdown-items">
+          ${available.map(plat => {
+            const isSelected = plat.key === primary.key;
+            return `
+              <button type="button"
+                      class="dropdown-item ${isSelected ? 'is-active' : ''}"
+                      data-key="${plat.key}"
+                      data-url="${formatDownloadUrl(plat.link)}"
+                      data-name="${plat.name}"
+                      data-short="${plat.shortName}"
+                      data-title="Download ${game.title} for ${plat.name}"
+                      data-prefix="${actionPrefix}"
+                      onclick="selectGamePlatform(event, this)">
+                <span class="item-icon">${plat.icon}</span>
+                <span class="item-info">
+                  <span class="item-name">${plat.label}</span>
+                </span>
+                <span class="item-active-indicator" style="${isSelected ? '' : 'display:none;'}">
+                  <span class="arcade-arrow">▶</span> ACTIVE
+                </span>
+              </button>
+            `;
+          }).join('')}
+        </div>
       </div>
     </div>
   `;
 }
+
+// Selects an alternative platform from dropdown to switch active download button
+function selectGamePlatform(event, itemBtn) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  const control = itemBtn.closest('.game-download-control');
+  if (!control) return;
+
+  const url = itemBtn.dataset.url;
+  const name = itemBtn.dataset.name;
+  const shortName = itemBtn.dataset.short;
+  const title = itemBtn.dataset.title;
+  const prefix = itemBtn.dataset.prefix || 'DEMO';
+  const iconHtml = itemBtn.querySelector('.item-icon') ? itemBtn.querySelector('.item-icon').innerHTML : '';
+
+  // Update primary download button
+  const primaryBtn = control.querySelector('.btn-download-primary');
+  if (primaryBtn) {
+    primaryBtn.href = url;
+    primaryBtn.title = title;
+    primaryBtn.target = '_blank';
+    primaryBtn.rel = 'noopener noreferrer';
+
+    const iconSpan = primaryBtn.querySelector('.download-os-icon');
+    if (iconSpan && iconHtml) {
+      iconSpan.innerHTML = iconHtml;
+    }
+    const textSpan = primaryBtn.querySelector('.download-btn-text');
+    if (textSpan) {
+      textSpan.textContent = `${prefix} (${shortName})`;
+    }
+  }
+
+  // Update active state in dropdown
+  const menu = control.querySelector('.download-dropdown-menu');
+  if (menu) {
+    menu.querySelectorAll('.dropdown-item').forEach(item => {
+      item.classList.remove('is-active');
+      const indicator = item.querySelector('.item-active-indicator');
+      if (indicator) indicator.style.display = 'none';
+    });
+    itemBtn.classList.add('is-active');
+    const indicator = itemBtn.querySelector('.item-active-indicator');
+    if (indicator) indicator.style.display = 'inline-flex';
+  }
+
+  // Close dropdown
+  closeAllGameDropdowns();
+}
+
+// Backward compatibility helper
+function renderPlatformDownloads(game) {
+  return renderSmartDownloadButton(game);
+}
+
+// Toggle game platform dropdown
+function toggleGameDropdown(event, button) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  const dropdown = button ? button.closest('.split-dropdown') : null;
+  if (!dropdown) return;
+  const isOpen = dropdown.classList.contains('is-open');
+  closeAllGameDropdowns();
+  if (!isOpen) {
+    dropdown.classList.add('is-open');
+  }
+}
+
+// Close all open game dropdowns
+function closeAllGameDropdowns() {
+  document.querySelectorAll('.split-dropdown.is-open').forEach(el => {
+    el.classList.remove('is-open');
+  });
+}
+
+// Close dropdown on outside click or Escape
+document.addEventListener('click', () => {
+  closeAllGameDropdowns();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeAllGameDropdowns();
+});
 
 function renderGames() {
   const container = document.getElementById('games-grid');
@@ -576,17 +748,7 @@ function renderGames() {
       </div>
     ` : '';
 
-    const hasValidLink = game.buttonLink && game.buttonLink.trim() !== '' && game.buttonLink.trim() !== '#';
-
-    const actionBtnOnClick = hasValidLink
-      ? `onclick="event.stopPropagation(); window.open('${game.buttonLink.trim()}', '_blank');"`
-      : `onclick="event.stopPropagation(); event.preventDefault(); return false;"`;
-
-    const actionBtnStyle = hasValidLink
-      ? `width: auto; padding: 9px 22px; background-color: var(--accent-color, var(--color-neon-yellow)); ${buttonTextStyle} font-weight: 900; cursor: pointer;`
-      : `width: auto; padding: 9px 22px; background-color: rgba(255,255,255,0.08); color: var(--color-text-muted); border-color: rgba(255,255,255,0.2); font-weight: 700; cursor: default; opacity: 0.75;`;
-
-    const platformsHtml = renderPlatformDownloads(game);
+    const downloadControlHtml = renderSmartDownloadButton(game);
 
     return `
       <div class="fighter-card ${game.accentClass} game-card" id="${game.id}" data-category="${game.category}" style="transition: opacity 0.3s ease;">
@@ -606,11 +768,8 @@ function renderGames() {
         <div>
           ${statsHtml}
           ${galleryHtml}
-          <div class="card-action-row" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 12px;">
-            <div class="card-action" style="margin-top: 0;">
-              <button class="btn-card ${!hasValidLink ? 'btn-no-link' : ''}" style="${actionBtnStyle}" ${actionBtnOnClick}>${game.buttonText}</button>
-            </div>
-            ${platformsHtml}
+          <div class="card-action-row" style="display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 12px; margin-top: 14px;">
+            ${downloadControlHtml}
           </div>
         </div>
       </div>
@@ -770,12 +929,11 @@ function renderFeaturedProject() {
           </div>
           
           <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-            <a href="games.html" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); color: #fff; background-color: transparent; flex: 1;" onclick="event.stopPropagation();">VIEW</a>
-            ${hasFeaturedValidLink
-              ? `<a href="${featuredGame.buttonLink.trim()}" target="_blank" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); ${textStyle} background-color: var(--accent-color); flex: 1.2; font-weight: 900;" onclick="event.stopPropagation();">${featuredGame.buttonText}</a>`
-              : `<button class="btn-card btn-no-link" style="text-align: center; text-decoration: none; border-color: rgba(255,255,255,0.2); color: var(--color-text-muted); background-color: rgba(255,255,255,0.08); flex: 1.2; font-weight: 700; opacity: 0.75; cursor: default;" onclick="event.stopPropagation(); event.preventDefault(); return false;">${featuredGame.buttonText}</button>`}
+            <a href="games.html" class="btn-card" style="text-align: center; text-decoration: none; border-color: var(--accent-color); color: #fff; background-color: transparent; flex: 1; padding: 9px 18px;" onclick="event.stopPropagation();">VIEW</a>
+            <div style="flex: 1.4; min-width: 180px;">
+              ${renderSmartDownloadButton(featuredGame, true)}
+            </div>
           </div>
-          ${renderPlatformDownloads(featuredGame) ? `<div style="margin-top: 14px;">${renderPlatformDownloads(featuredGame)}</div>` : ''}
         </div>
       </div>
     </div>
