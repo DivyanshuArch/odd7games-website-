@@ -14,14 +14,14 @@ const GAMES_DATA = [
       { label: "TO BE RELEASED", value: "v0.2" }
     ],
     buttonText: "DEMO",
-    buttonLink: "https://drive.google.com/uc?export=download&id=1_VVm4sgP0P48bBqu8ocwYU0Q-nk7p0X-", // Add actual URL or path here
+    buttonLink: "https://drive.google.com/uc?export=download&id=1gTJ0bUGaXS52LJxfsuySJP40mmqO8DZj", // Add actual URL or path here
 
     // Platform download links (Windows, Linux, Mac/Max)
     // Add Google Drive file links (or direct download URLs) below.
     // If a link is provided, its OS logo will appear in the game card.
     // Clicking the logo will trigger direct download of the file.
     platforms: {
-      win: "https://drive.google.com/uc?export=download&id=1_VVm4sgP0P48bBqu8ocwYU0Q-nk7p0X-",   // Windows download URL (e.g. Google Drive link)
+      win: "https://drive.google.com/uc?export=download&id=1gTJ0bUGaXS52LJxfsuySJP40mmqO8DZj",   // Windows download URL (e.g. Google Drive link)
       linux: "", // Linux download URL
       max: ""    // Mac / Max download URL (or 'mac')
     },
